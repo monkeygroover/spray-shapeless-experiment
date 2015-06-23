@@ -5,12 +5,13 @@ import record._, syntax.singleton._
  */
 object CaseClassCopyApp extends App {
 
-  case class Foo(blah: String, blah2: Option[String])
-  val foo = Foo("hello", Some("huh"))
+  case class Nested(value: String)
+  case class Foo(blah: String, blah2: List[Nested])
+  val foo = Foo("hello", Nested("huh") :: Nested("huh") :: Nil)
 
   val fooRecord = LabelledGeneric[Foo].to(foo)
 
-  case class Bar(id: String, blah: String, blah2: Option[String])
+  case class Bar(id: String, blah: String,blah2: List[Nested])
 
   val bar = LabelledGeneric[Bar].from(('id ->> "uuid") :: fooRecord)
 
